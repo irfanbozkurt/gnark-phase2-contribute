@@ -1,3 +1,11 @@
 keys
 contribution.env
 .DS_Store
+*.env
+*.ptau
+*.r1cs
+*.ph2
+phase2Evaluations
+gnark-phase2-mpc-wrapper-executable
+pk
+vk

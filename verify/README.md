@@ -2,6 +2,10 @@
 
 - [Go](https://golang.org/doc/install)
 - git
+- A configured AWS Cli
+- Set AWS_ACCESS_KEY_ID and AWS_SECRET_ACCESS_KEY env variables
+
+Script downloads the artifacts from the s3 bucket. Check the script for aws client configuration, and make sure it points to a valid bucket.
 
 ## Running the verification script
 
