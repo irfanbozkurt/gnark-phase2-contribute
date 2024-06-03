@@ -1,6 +1,6 @@
 #!/bin/bash
 
-bucket_name="mpc-ceremony"
+bucket_name="assets.lighter.xyz"
 
 # Check if Go is installed
 if ! command -v go &>/dev/null; then
@@ -44,8 +44,8 @@ fi
 
 # Download the two contributions
 echo "Downloading the artifacts..."
-aws s3 --endpoint-url http://localhost:4566 cp s3://$bucket_name/$previous_contribution $previous_contribution
-aws s3 --endpoint-url http://localhost:4566 cp s3://$bucket_name/$contribution_to_verify $contribution_to_verify
+aws s3 cp s3://$bucket_name/$previous_contribution $previous_contribution
+aws s3 cp s3://$bucket_name/$contribution_to_verify $contribution_to_verify
 # echo ""
 
 # Verify

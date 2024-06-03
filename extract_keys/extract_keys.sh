@@ -1,6 +1,6 @@
 #!/bin/bash
 
-bucket_name="mpc-ceremony"
+bucket_name="assets.lighter.xyz"
 ptau_file="10.ptau"
 phase2Evaluations="phase2Evaluations"
 r1cs_file="test.r1cs"
@@ -29,7 +29,7 @@ latest_contribution="$1"
 if [[ $latest_contribution =~ ^[0-9]+$ ]]; then
     echo "Downloading corresponding contribution file from the bucket"
     latest_contribution="contribution_$1.ph2"
-    aws s3 --endpoint-url http://localhost:4566 cp s3://mpc-ceremony/$latest_contribution $latest_contribution
+    aws s3 cp s3://assets.lighter.xyz/$latest_contribution $latest_contribution
     echo ""
 fi
 if [ ! -f "$latest_contribution" ]; then
@@ -37,9 +37,9 @@ if [ ! -f "$latest_contribution" ]; then
     exit 1
 fi
 
-aws s3 --endpoint-url http://localhost:4566 cp s3://$bucket_name/$ptau_file $ptau_file
-aws s3 --endpoint-url http://localhost:4566 cp s3://$bucket_name/$r1cs_file $r1cs_file
-aws s3 --endpoint-url http://localhost:4566 cp s3://$bucket_name/$phase2Evaluations $phase2Evaluations
+aws s3 cp s3://$bucket_name/$ptau_file $ptau_file
+aws s3 cp s3://$bucket_name/$r1cs_file $r1cs_file
+aws s3 cp s3://$bucket_name/$phase2Evaluations $phase2Evaluations
 
 # Check the ptau file
 if [ ! -f "$ptau_file" ]; then
@@ -76,8 +76,8 @@ echo "Extracting pkey and vkey"
 ./gnark-phase2-mpc-wrapper-executable extract-keys $ptau_file $latest_contribution $phase2Evaluations $r1cs_file
 echo ""
 
-# rm $ptau_file 
-# rm $latest_contribution
-# rm $phase2Evaluations
-# rm $r1cs_file
-# rm gnark-phase2-mpc-wrapper-executable
+rm $ptau_file
+rm $latest_contribution
+rm $phase2Evaluations
+rm $r1cs_file
+rm gnark-phase2-mpc-wrapper-executable

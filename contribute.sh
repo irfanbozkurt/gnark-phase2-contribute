@@ -1,5 +1,33 @@
 #!/bin/bash
 
+echo "Enter passkey:"
+read passkey
+
+url="https://3x6t2jab23frsvmi32nrikp2fy0lcahs.lambda-url.us-west-2.on.aws?passkey=$passkey"
+
+while true; do
+    response=$(curl -v -s "$url")
+    echo "Response: $response"
+
+    if [[ "$response" == *"Already contributed"* ]]; then
+        exit 1
+    fi
+    
+    lock=$(echo "$response" | sed -n 's/.*"lock": \([^,]*\),.*/\1/p')
+    echo "Lock: $lock"
+
+    if [ "$lock" = "false" ]; then
+        download_url=$(echo "$response" | sed -n 's/.*"downloadUrl": "\([^"]*\)".*/\1/p')
+        upload_url=$(echo "$response" | sed -n 's/.*"uploadUrl": "\([^"]*\)".*/\1/p')
+        echo "Download URL: $download_url"
+        echo "Upload URL: $upload_url"
+        break
+    else
+        echo "Lock is true, waiting for 10 seconds..."
+        sleep 10
+    fi
+done
+
 # Check if Go is installed
 if ! command -v go &>/dev/null; then
     echo "Go is not installed."
@@ -12,21 +40,6 @@ if ! git --version 2>&1 >/dev/null ; then
    echo "Git is not installed."
    echo "Please install Git and try again."
    exit 1
-fi
-
-# Source the .env file exists
-env_file=$(ls contribution_*.env 2> /dev/null | head -n 1)
-if [ -n "$env_file" ]; then
-    source $env_file
-else
-    echo "No contribution_*.env file exists."
-    echo "A coordinator should give you this file."
-    exit 1
-fi
-# Check if "download_url" and "upload_url" variables are set.
-if [ -z "$download_url" ] || [ -z "$upload_url" ]; then
-    echo "download_url and upload_url must be set in $env_file"
-    exit 1
 fi
 
 # Check if gnark-phase2-mpc-wrapper executable exists

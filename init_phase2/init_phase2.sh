@@ -1,6 +1,6 @@
 #!/bin/bash
 
-bucket_name="mpc-ceremony"
+bucket_name="assets.lighter.xyz"
 
 r1cs_file=$1
 ptau_file=$2
@@ -42,10 +42,10 @@ echo "Initializing phase2 ceremony"
 echo ""
 
 echo "Uploading artifacts"
-aws s3 --endpoint-url http://localhost:4566 cp $r1cs_file s3://$bucket_name/$r1cs_file
-aws s3 --endpoint-url http://localhost:4566 cp $ptau_file s3://$bucket_name/$ptau_file
-aws s3 --endpoint-url http://localhost:4566 cp phase2Evaluations s3://$bucket_name/phase2Evaluations
-aws s3 --endpoint-url http://localhost:4566 cp contribution_0.ph2 s3://$bucket_name/contribution_0.ph2
+aws s3 cp $r1cs_file s3://$bucket_name/$r1cs_file
+aws s3 cp $ptau_file s3://$bucket_name/$ptau_file
+aws s3 cp phase2Evaluations s3://$bucket_name/phase2Evaluations
+aws s3 cp contribution_0.ph2 s3://$bucket_name/contribution_0.ph2
 
 rm gnark-phase2-mpc-wrapper-executable
 rm contribution_0.ph2
