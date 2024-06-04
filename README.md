@@ -7,7 +7,7 @@ For a contributor, only relevant file in this repo is `contribute.sh`. If you're
 
 ## Performing a Contribution
 
-Each contributor will receive a `contribution.env` file which will contain a signed URL to be used by the contribution script to upload resulting artifacts to the bucket. After placing that file next to `contribute.sh`:
+Each contributor will receive a `passkey` that needs to be entered to the executable. This passkey allows to get an upload url.
 
 ```bash
 chmod +x contribute.sh; ./contribute.sh;
